@@ -1,0 +1,81 @@
+doctype html
+html(lang="es")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Transferencia Recibida - Bank App
+    style.
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+      .container {
+        background: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 3px solid #28a745;
+      }
+      .amount {
+        font-size: 36px;
+        color: #28a745;
+        font-weight: bold;
+        text-align: center;
+        margin: 20px 0;
+      }
+      .transaction-details {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+        border-left: 4px solid #28a745;
+      }
+      .balance-info {
+        background: #e7f3ff;
+        padding: 15px;
+        border-radius: 5px;
+        text-align: center;
+        margin: 20px 0;
+      }
+      .footer {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+        text-align: center;
+        color: #666;
+        font-size: 14px;
+      }
+  body
+    .container
+      .header
+        h1 💰 ¡Transferencia Recibida!
+        p Hola #{userName}, has recibido dinero en tu cuenta
+
+      .amount $#{amount.toLocaleString('es-MX', {minimumFractionDigits: 2})} MXN
+
+      .transaction-details
+        h3 📋 Detalles de la Transferencia
+        p <strong>De:</strong> #{senderName}
+        p <strong>Monto:</strong> $#{amount.toLocaleString('es-MX', {minimumFractionDigits: 2})} MXN
+        p <strong>Tu Cuenta:</strong> #{accountNumber}
+        p <strong>ID Transacción:</strong> #{transactionId}
+        p <strong>Fecha:</strong> #{new Date().toLocaleString('es-MX')}
+
+      .balance-info
+        h3 💳 Saldo Actualizado
+        p Tu nuevo saldo es: <strong>${newBalance.toLocaleString('es-MX', {minimumFractionDigits: 2})} MXN</strong>
+
+      .footer
+        p © #{currentYear} Bank App. Todos los derechos reservados.
+        p Si tienes preguntas, contáctanos en: 
+          a(href=`mailto:${supportEmail}`) #{supportEmail}
