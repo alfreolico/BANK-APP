@@ -10,10 +10,8 @@ export class UsersRoutes {
     const finderUserService = new FinderUserService();
     const controller = new UsersController(finderUserService);
 
-    // Ruta existente - Perfil del usuario autenticado
     router.get('/me', authenticateToken, controller.getProfile);
 
-    // NUEVA RUTA - Buscar usuario por número de cuenta
     router.get(
       '/account/:accountNumber',
       authenticateToken,

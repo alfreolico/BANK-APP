@@ -43,7 +43,6 @@ export class FinderUserService {
 
   async executeByAccountNumber(accountNumber: string): Promise<any> {
     try {
-      // Validar formato del número de cuenta
       if (!accountNumber || accountNumber.length !== 20) {
         throw new ValidationError('Número de cuenta debe tener 20 dígitos', {
           accountNumber,
@@ -51,7 +50,6 @@ export class FinderUserService {
         });
       }
 
-      // Validar que solo contenga números
       if (!/^\d{20}$/.test(accountNumber)) {
         throw new ValidationError(
           'Número de cuenta debe contener solo dígitos',

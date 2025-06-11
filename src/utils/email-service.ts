@@ -18,7 +18,7 @@ export class EmailService {
     this.transporter = nodemailer.createTransport({
       host: envs.EMAIL_HOST,
       port: envs.EMAIL_PORT,
-      secure: envs.EMAIL_PORT === 465, // true para 465, false para otros puertos
+      secure: envs.EMAIL_PORT === 465,
       auth: {
         user: envs.EMAIL_USER,
         pass: envs.EMAIL_PASS,
@@ -28,7 +28,6 @@ export class EmailService {
 
   async sendEmail(emailData: EmailData): Promise<boolean> {
     try {
-      // Compilar template Pug
       const templatePath = path.join(
         __dirname,
         '../templates/emails',
@@ -37,7 +36,6 @@ export class EmailService {
       const compiledFunction = pug.compileFile(templatePath);
       const html = compiledFunction(emailData.templateData);
 
-      // Configurar email
       const mailOptions = {
         from: `"Banking App" <${envs.EMAIL_USER}>`,
         to: emailData.to,
@@ -45,7 +43,6 @@ export class EmailService {
         html: html,
       };
 
-      // Enviar email
       const info = await this.transporter.sendMail(mailOptions);
 
       logInfo('Email enviado exitosamente', {
@@ -72,7 +69,7 @@ export class EmailService {
   ): Promise<boolean> {
     return this.sendEmail({
       to: userEmail,
-      subject: '¡Bienvenido a Banking App! - Cuenta creada exitosamente',
+      subject: '¡Bienvenido a Bank App! - Cuenta creada exitosamente',
       template: 'welcome',
       templateData: {
         userName,
@@ -98,7 +95,7 @@ export class EmailService {
   ): Promise<boolean> {
     return this.sendEmail({
       to: userEmail,
-      subject: 'Transferencia recibida - Banking App',
+      subject: 'Transferencia recibida - Bank App',
       template: 'transfer-received',
       templateData: {
         ...data,

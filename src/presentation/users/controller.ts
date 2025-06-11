@@ -29,7 +29,6 @@ export class UsersController {
         user: {
           name: user.name,
           account_number: user.account_number,
-          // Por seguridad, no mostrar email, ID, balance ni fecha
         },
       });
     }

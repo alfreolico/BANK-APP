@@ -27,13 +27,11 @@ export class CreatorTransactionService {
       const transactionRepository =
         queryRunner.manager.getRepository(Transaction);
 
-      // Buscar sender
       const sender = await userRepository.findOne({ where: { id: senderId } });
       if (!sender) {
         throw new NotFoundError('Usuario emisor no encontrado', { senderId });
       }
 
-      // Verificar saldo suficiente
       if (Number(sender.balance) < amount) {
         await queryRunner.rollbackTransaction();
         throw new BusinessError(
@@ -46,7 +44,6 @@ export class CreatorTransactionService {
         );
       }
 
-      // Buscar receiver
       const receiver = await userRepository.findOne({
         where: { account_number: receiver_account_number },
       });
@@ -57,7 +54,6 @@ export class CreatorTransactionService {
         });
       }
 
-      // Verificar que no sea la misma cuenta
       if (sender.id === receiver.id) {
         await queryRunner.rollbackTransaction();
         throw new BusinessError(
@@ -69,7 +65,6 @@ export class CreatorTransactionService {
         );
       }
 
-      // Actualizar balances
       const newSenderBalance = Number(sender.balance) - Number(amount);
       const newReceiverBalance = Number(receiver.balance) + Number(amount);
 
@@ -79,7 +74,6 @@ export class CreatorTransactionService {
       await userRepository.save(sender);
       await userRepository.save(receiver);
 
-      // Crear transacción
       const transaction = transactionRepository.create({
         sender_id: sender.id,
         receiver_id: receiver.id,

@@ -2,13 +2,11 @@ import winston from 'winston';
 import path from 'path';
 import fs from 'fs';
 
-// Crear directorio de logs si no existe
-const logDir = 'logs';
+const logDir = 'temp/logs';
 if (!fs.existsSync(logDir)) {
   fs.mkdirSync(logDir);
 }
 
-// Formato personalizado para logs
 const logFormat = winston.format.combine(
   winston.format.timestamp({
     format: 'YYYY-MM-DD HH:mm:ss',
@@ -29,7 +27,6 @@ const logFormat = winston.format.combine(
   })
 );
 
-// Configuración del logger
 export const logger = winston.createLogger({
   level: process.env.NODE_ENV === 'production' ? 'warn' : 'info',
   format: logFormat,
@@ -38,21 +35,20 @@ export const logger = winston.createLogger({
     version: '1.0.0',
   },
   transports: [
-    // Log de errores
     new winston.transports.File({
       filename: path.join(logDir, 'error.log'),
       level: 'error',
       maxsize: 5242880, // 5MB
       maxFiles: 5,
     }),
-    // Log de warnings
+
     new winston.transports.File({
       filename: path.join(logDir, 'warn.log'),
       level: 'warn',
       maxsize: 5242880,
       maxFiles: 3,
     }),
-    // Log combinado
+
     new winston.transports.File({
       filename: path.join(logDir, 'combined.log'),
       maxsize: 5242880,
@@ -61,7 +57,6 @@ export const logger = winston.createLogger({
   ],
 });
 
-// En desarrollo, también log a consola
 if (process.env.NODE_ENV !== 'production') {
   logger.add(
     new winston.transports.Console({
@@ -73,7 +68,6 @@ if (process.env.NODE_ENV !== 'production') {
   );
 }
 
-// Funciones helper para logging estructurado
 export const logError = (message: string, error: Error, context?: object) => {
   logger.error(message, {
     error: error.message,

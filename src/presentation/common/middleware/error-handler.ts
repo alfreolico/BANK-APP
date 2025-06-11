@@ -8,7 +8,6 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ): void => {
-  // Si es un error personalizado
   if (error instanceof CustomError) {
     const { statusCode, message, logging, context } = error;
 
@@ -34,7 +33,6 @@ export const errorHandler = (
     return;
   }
 
-  // Error de validación de express-validator
   if (error.name === 'ValidationError') {
     logger.warn('Error de validación:', {
       error: error.message,
@@ -52,7 +50,6 @@ export const errorHandler = (
     return;
   }
 
-  // Error de JWT
   if (error.name === 'JsonWebTokenError') {
     logger.warn('Error de JWT:', {
       error: error.message,
@@ -85,7 +82,6 @@ export const errorHandler = (
     return;
   }
 
-  // Error de TypeORM/Base de datos
   if (
     error.name === 'QueryFailedError' ||
     error.name === 'EntityNotFoundError'
@@ -109,7 +105,6 @@ export const errorHandler = (
     return;
   }
 
-  // Error genérico no manejado
   logger.error('Error no manejado:', {
     error: error.message,
     name: error.name,
